@@ -1,0 +1,55 @@
+{
+  "name": "express-boilerplate",
+  "version": "1.0.0",
+  "description": "A Boilerplate application for building REST APIs using express, mongoose in ES6 with code coverage",
+  "author": "Nitin Khaitan <khaitan.nitin@gmail.com>",
+  "main": "index.js",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:khaitan-nitin/express-boilerplate.git"
+  },
+  "scripts": {
+    "start": "node ./bin/www",
+    "start:debug": "cross-env DEBUG=express-boilerplate:* yarn start",
+    "commit": "cz",
+    "lint": "esw *.js server --color",
+    "lint:watch": "yarn lint --watch"
+  },
+  "dependencies": {
+    "bluebird": "~3.7.2",
+    "compression": "~1.7.4",
+    "cookie-parser": "~1.4.6",
+    "cors": "~2.8.5",
+    "debug": "~4.3.4",
+    "dotenv": "~16.0.1",
+    "express": "~4.18.1",
+    "express-winston": "~4.2.0",
+    "helmet": "~5.1.0",
+    "http-errors": "~2.0.0",
+    "http-status": "~1.5.2",
+    "joi": "~17.6.0",
+    "method-override": "~3.0.0",
+    "mongoose": "~6.4.4",
+    "morgan": "~1.10.0",
+    "rotating-file-stream": "^3.0.4",
+    "express-validation": "~4.1.0",
+    "winston": "~3.8.1"
+  }, 
+  "devDependencies": {
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.0.1",
+    "eslint": "~8.19.0",
+    "eslint-config-airbnb-base": "~15.0.0",
+    "eslint-plugin-import": "~2.26.0",
+    "eslint-watch": "~8.0.0",
+    "cross-env": "~7.0.3",
+    "husky": "~8.0.1"
+  },
+  "license": "MIT",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
