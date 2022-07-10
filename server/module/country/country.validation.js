@@ -15,7 +15,7 @@ const updateCountry = {
     shortName: Joi.string().max(4).required()
   }),
   params: Joi.object({
-    countryId: Joi.string().hex().required()
+    countryId: Joi.string().required()
   })
 };
 

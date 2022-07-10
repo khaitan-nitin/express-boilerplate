@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const request = require('supertest-as-promised');
+const request = require('supertest');
 const httpStatus = require('http-status');
 const chai = require('chai'); // eslint-disable-line import/newline-after-import
-const expect = chai.expect;
-const app = require('../../index');
+const { expect } = chai;
+const app = require('../../../index');
 
 chai.config.includeStack = true;
 
@@ -20,8 +20,8 @@ after((done) => {
 
 describe('## Country APIs', () => {
   let country = {
-    name: 'Australia',
-    shortName: 'AU'
+    name: 'India',
+    shortName: 'IN'
   };
 
   describe('# POST /api/country', () => {
@@ -29,7 +29,7 @@ describe('## Country APIs', () => {
       request(app)
         .post('/api/country')
         .send(country)
-        .expect(httpStatus.OK)
+        .expect(httpStatus.CREATED)
         .then((res) => {
           expect(res.body.name).to.equal(country.name);
           expect(res.body.shortName).to.equal(country.shortName);
@@ -43,7 +43,7 @@ describe('## Country APIs', () => {
   describe('# GET /api/country/:countryId', () => {
     it('should get country details', (done) => {
       request(app)
-        .get(`/api/country/${country._id}`)
+        .get(`/api/country/${country.id}`)
         .expect(httpStatus.OK)
         .then((res) => {
           expect(res.body.name).to.equal(country.name);
@@ -67,14 +67,17 @@ describe('## Country APIs', () => {
 
   describe('# PUT /api/country/:countryId', () => {
     it('should update country details', (done) => {
-      country.name = 'Australia';
+      country.name = 'Sri lanka';
+      const countryId = country.id;
+      delete country.id;
       request(app)
-        .put(`/api/country/${country._id}`)
+        .put(`/api/country/${countryId}`)
         .send(country)
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body.name).to.equal('Australia');
+          expect(res.body.name).to.equal('Sri lanka');
           expect(res.body.shortName).to.equal(country.shortName);
+          country = res.body;
           done();
         })
         .catch(done);
@@ -87,7 +90,7 @@ describe('## Country APIs', () => {
         .get('/api/country')
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.be.an('array');
+          expect(res.body.results).to.be.an('array');
           done();
         })
         .catch(done);
@@ -96,10 +99,10 @@ describe('## Country APIs', () => {
     it('should get all country (with limit and skip)', (done) => {
       request(app)
         .get('/api/country')
-        .query({ limit: 10, skip: 1 })
+        .query({ limit: 10, page: 1 })
         .expect(httpStatus.OK)
         .then((res) => {
-          expect(res.body).to.be.an('array');
+          expect(res.body.results).to.be.an('array');
           done();
         })
         .catch(done);
@@ -109,11 +112,9 @@ describe('## Country APIs', () => {
   describe('# DELETE /api/country/', () => {
     it('should delete country', (done) => {
       request(app)
-        .delete(`/api/country/${country._id}`)
-        .expect(httpStatus.OK)
-        .then((res) => {
-          expect(res.body.name).to.equal('Australia');
-          expect(res.body.shortName).to.equal(country.shortName);
+        .delete(`/api/country/${country.id}`)
+        .expect(httpStatus.NO_CONTENT)
+        .then(() => {
           done();
         })
         .catch(done);
